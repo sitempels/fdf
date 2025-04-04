@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:05:23 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/03 16:14:18 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:38:46 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FDF_F
 # include "libft.h"
 # include "mlx.h"
+# include <math.h>
 /*---------------------------MACRO--------------------------------------------*/
 # define EXT_FDF ".fdf"
 # define WIDHT 1920
@@ -36,7 +37,6 @@ typedef struct	s_point
 {
 	int			x;
 	int			y;
-	int			z;
 	unsigned int	color;
 }		t_point;
 /**/

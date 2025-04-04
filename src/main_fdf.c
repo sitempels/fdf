@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/03 16:35:50 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:40:31 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ int	main(int argc, char **argv)
 	map = parse_map(&data, argv[argc - 1]);
 	if (!map)
 		return (-1);
+	i = 0;
+	while (i < data.y_max)
+	{
+		j = 0;
+		while (j < data.x_max)
+		{
+			printf("%d ", map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
 	fdf(&data, map);
 	return (0);
 }
@@ -51,6 +63,8 @@ static int	**parse_map(t_data *data, char *mapfile)
 	int	**map;
 
 	fd = open(mapfile, 'r');
+	if (read(fd, 0, 0) == -1)
+		return (NULL);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -67,13 +81,8 @@ static int	**parse_map(t_data *data, char *mapfile)
 		line = get_next_line(fd); 
 		if (!line)
 			break ;
-		while(line[i])
-		{
-			if (line[i] == '\n')
-				line[i] = ' ';
-			i++;
-		}
-		i = 0;
+		if (line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = ' ';
 		arg = ft_split(line, ' ');
 		if (!arg)
 			break ;
@@ -125,12 +134,12 @@ static int	check_str(char **array, int **map, int width, int length)
 	int	content;
 
 	map[width] = (int *) malloc(sizeof(int) * length);
-/*	if (!map)
+	if (!map)
 	{
 		free_on_close( 0, array);
 		arrint_free(map, width);
 		return (0);
-	}*/
+	}
 	i = 0;
 	while (array[i])
 	{
@@ -138,8 +147,8 @@ static int	check_str(char **array, int **map, int width, int length)
 		if ((content == -1 && array[i][0] != '-')
 			|| (content == 0 && array[i][0] != '0'))
 		{
-		//	free_on_close(0, array);
-		//	arrint_free(map, width);
+			free_on_close(0, array);
+			arrint_free(map, width);
 			return (0);
 		}
 		map[width][i] = content;
