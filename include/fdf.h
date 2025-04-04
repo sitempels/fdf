@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:05:23 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/04 16:38:46 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:19:15 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct	s_point
 void	fdf(t_data *img, int **map);
 /**/
 /*---------------------------UTILS--------------------------------------------*/
-int	**free_on_close(int fd, char **arstr);
+int	**free_on_close(int fd, char **arstr, int i, int **arint);
 void	arr_free(char **array);
 void	arrint_free(int **array, int i);
 /**/

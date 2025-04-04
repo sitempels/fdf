@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/04 11:40:31 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:06:48 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static int	**parse_map(t_data *data, char *mapfile)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
+		free(line);
 		data->y_max++;
 	}
 	close(fd);
@@ -80,22 +81,23 @@ static int	**parse_map(t_data *data, char *mapfile)
 	{
 		line = get_next_line(fd); 
 		if (!line)
-			break ;
+			return (free_on_close(0, NULL, i, map)) ;
 		if (line[ft_strlen(line) - 1] == '\n')
-				line[ft_strlen(line) - 1] = ' ';
+			line[ft_strlen(line) - 1] = ' ';
 		arg = ft_split(line, ' ');
+		free(line);
 		if (!arg)
-			break ;
+			return (free_on_close(-fd, NULL, i, map));
 		if (data->x_max < INT_MAX
 			&& ft_arrlen(arg) != (size_t)data->x_max)
-			return (NULL);
+			return (free_on_close(-fd, arg, i, map));
 		data->x_max = ft_arrlen(arg);
 		if (!check_arg(arg)
 			|| !check_str(arg, map, i, data->x_max))
-			return (NULL);
+			return (free_on_close(-fd, arg, i, map));
 		i++;
+		arr_free(arg);
 	}
-	free_on_close(fd, arg);
 	return (map);
 }
 
@@ -135,22 +137,14 @@ static int	check_str(char **array, int **map, int width, int length)
 
 	map[width] = (int *) malloc(sizeof(int) * length);
 	if (!map)
-	{
-		free_on_close( 0, array);
-		arrint_free(map, width);
 		return (0);
-	}
 	i = 0;
 	while (array[i])
 	{
 		content = ft_atoi(array[i]);
 		if ((content == -1 && array[i][0] != '-')
 			|| (content == 0 && array[i][0] != '0'))
-		{
-			free_on_close(0, array);
-			arrint_free(map, width);
 			return (0);
-		}
 		map[width][i] = content;
 		i++;
 	}
