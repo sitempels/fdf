@@ -1,0 +1,8 @@
+ PLAN:
+
+ - MAIN:
+ 	. parse de map & check_arg
+	. create struct
+
+- FDF:
+	.

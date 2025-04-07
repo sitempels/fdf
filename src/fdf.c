@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:55 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/04 17:18:24 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:31:49 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	my_mlx_pxput(t_data *data, int x, int y, int color);
 void	draw_line(t_data *data, t_point *pt1, t_point *pt2);
-t_point *init_point_struct(t_data *img, int x, int y, int z);
+t_point *init_point_struct(t_data *img, int x, int y, int ***map);
 
-void	fdf(t_data *img, int **map)
+void	fdf(t_data *img, int ***map)
 {
 	int	i;
 	int	j;
@@ -33,26 +33,26 @@ void	fdf(t_data *img, int **map)
 	while (i < img->y_max)
 	{
 		j = 0;
-		ptx1 = init_point_struct(img, j, i, map[i][j]);
+		ptx1 = init_point_struct(img, i, j, map);
 		while (j < img->x_max)
 		{
-			ptx2 = init_point_struct(img, j, i, map[i][j]);
+			ptx2 = init_point_struct(img, i, j, map);
 			draw_line(img, ptx1, ptx2);
 		//	my_mlx_pxput(img, ptx2->x, ptx2->y, 0x0000FF00);
 			ptx1 = ptx2;
 			j++;
 		}
-		my_mlx_pxput(img, ptx2->x, ptx2->y, 0x0000FF00);
+		my_mlx_pxput(img, ptx2->x, ptx2->y, map[1][i][j]);
 		i++;
 	}
 	j = 0;
 	while (j < img->x_max)
 	{
 		i = 0;
-		ptx1 = init_point_struct(img, j, i, map[i][j]);
+		ptx1 = init_point_struct(img, i, j, map);
 		while (i < img->y_max)
 		{
-			ptx2 = init_point_struct(img, j, i, map[i][j]);
+			ptx2 = init_point_struct(img, i, j, map);
 			draw_line(img, ptx1, ptx2);
 			ptx1 = ptx2;
 			i++;
@@ -64,8 +64,10 @@ void	fdf(t_data *img, int **map)
 	return ;
 }
 
-t_point *init_point_struct(t_data *img, int x, int y, int z)
+t_point *init_point_struct(t_data *img, int x, int y, int ***map)
 {
+	int	projx;
+	int	projy;
 	float	angle;
 	t_point	*ptx;
 
@@ -73,11 +75,11 @@ t_point *init_point_struct(t_data *img, int x, int y, int z)
 	ptx = (t_point *) malloc(sizeof(t_point) * 1);
 	if (!ptx)
 		return (NULL);
-	x = (x * (WIDHT * 0.50 / (img->x_max - 1))) + WIDHT * 0.1 + ((int)(WIDHT * 0.8) % (img->x_max - 1) / 2);
-	y = (y * (HEIGHT * 0.50 / (img->y_max - 1))) + HEIGHT * 0.1 + ((int)(HEIGHT * 0.8) % (img->y_max - 1) / 2);
-	ptx->x = (int)((x + y) * cos(angle));
-	ptx->y = (int)((x - y) * sin(angle) - z);
-	ptx->color = 0x00FFFFFF;
+	projx = (x * (WIDHT * 0.50 / (img->x_max - 1))) + WIDHT * 0.1 + ((int)(WIDHT * 0.8) % (img->x_max - 1) / 2);
+	projy = (y * (HEIGHT * 0.50 / (img->y_max - 1))) + HEIGHT * 0.1 + ((int)(HEIGHT * 0.8) % (img->y_max - 1) / 2);
+	ptx->x = (int)((projx + projy) * cos(angle));
+	ptx->y = (int)((projx - projy) * sin(angle) - map[0][x][y]) + (HEIGHT) * sin(angle);
+	ptx->color = map[1][x][y];
 	return (ptx);
 }
 
