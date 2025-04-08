@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:35:45 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/04 17:01:20 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:01:57 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	**free_on_close(int fd, char **arstr, int i, int **arint)
 	if (arstr)
 		arr_free(arstr);
 	if (arint && i > -1)
-		arrint_free(arint, i);
+		arrint_free(&arint, i);
 	return (NULL);
 }
 
@@ -30,7 +30,8 @@ void	arr_free(char **array)
 	j = 0;
 	while (array[j])
 	{
-		free(array[j]);
+		if (array[j])
+			free(array[j]);
 		j++;
 	}
 	free(array);
@@ -38,17 +39,25 @@ void	arr_free(char **array)
 	return ;
 }
 
-void	arrint_free(int	**array, int i)
+void	arrint_free(int	***array, int i)
 {
 	int	m;
+	int	n;
 
-	m = 0;
-	while (m < i)
+	n = 0;
+	while (n < 2)
 	{
-		if (array[m])
-			free(array[m]);
-		m++;
+		m = 0;
+		while (m < i)
+		{
+			if (array[n][m])
+				free(array[n][m]);
+			m++;
+		}
+		if (array[n])
+			free(array[n]);
+		array[n] = NULL;
+		n++;
 	}
-	free(array);
 	array = NULL;
 }
