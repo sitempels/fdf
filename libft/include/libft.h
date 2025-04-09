@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:09:18 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/08 22:19:39 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/09 10:05:37 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ int		ft_atoi_base(const char *str, char *base);
 /*--------------------------MALLOC_FUNCTIONS----------------------------------*/
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);
+/**/
+/*--------------------------FREE_FUNCTIONS------------------------------------*/
+void	arr_free(char **array);
+void	arrint_free(int	***array, int i);
 /**/
 /*Additional functions*/
 char	*ft_substr(char const *s, unsigned int start, size_t len);

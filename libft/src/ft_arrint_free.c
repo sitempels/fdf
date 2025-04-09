@@ -1,21 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_arrint_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:54:38 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/08 22:18:26 by stempels         ###   ########.fr       */
+/*   Created: 2025/04/09 10:08:01 by stempels          #+#    #+#             */
+/*   Updated: 2025/04/09 10:08:32 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstdelone(t_point *lst, void (*del)(int))
+void	arrint_free(int	***array, int i)
 {
-	if (!lst || !del)
-		return ;
-	del(lst -> content);
-	free(lst);
+	int	m;
+	int	n;
+
+	n = 0;
+	while (n < 2)
+	{
+		m = 0;
+		while (m < i)
+		{
+			if (array[n][m])
+				free(array[n][m]);
+			m++;
+		}
+		if (array[n])
+			free(array[n]);
+		array[n] = NULL;
+		n++;
+	}
+	array = NULL;
 }

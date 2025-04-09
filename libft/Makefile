@@ -6,7 +6,7 @@
 #    By: stempels <stempels@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/14 10:47:36 by stempels          #+#    #+#              #
-#    Updated: 2025/04/08 22:21:39 by stempels         ###   ########.fr        #
+#    Updated: 2025/04/09 10:09:07 by stempels         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CCFLAGS = -Wall -Wextra -Werror -g
 
 #-----------------------------------SRC----------------------------------------#
 SRC_DIR = src
-SRC = $(addprefix $(SRC_DIR)/ft_, $(addsuffix .c, isalpha isdigit isalnum isascii isprint strlen arrlen memset bzero memcpy memmove strlcpy strlcat toupper tolower strchr strrchr strncmp memchr memcmp strnstr atoi atoi_base calloc strdup substr strjoin strtrim split itoa strmapi striteri putchar_fd putstr_fd putendl_fd putnbr_fd lstnew lstadd_front lstsize lstlast lstadd_back lstiter putnbr_bfd putunbr_bfd printf_fd printf_utils_fd abs isspace get_next_line))
+SRC = $(addprefix $(SRC_DIR)/ft_, $(addsuffix .c, isalpha isdigit isalnum isascii isprint strlen arrlen memset bzero memcpy memmove strlcpy strlcat toupper tolower strchr strrchr strncmp memchr memcmp strnstr atoi atoi_base calloc strdup substr strjoin strtrim split itoa strmapi striteri putchar_fd putstr_fd putendl_fd putnbr_fd lstnew lstadd_front lstsize lstlast lstadd_back lstiter putnbr_bfd putunbr_bfd printf_fd printf_utils_fd abs isspace get_next_line arr_free arrint_free))
 
 #-----------------------------------OBJ----------------------------------------#
 OBJ_DIR = obj

@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:35:45 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/08 23:01:57 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/09 10:13:01 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,41 +23,17 @@ int	**free_on_close(int fd, char **arstr, int i, int **arint)
 	return (NULL);
 }
 
-void	arr_free(char **array)
+int	close_all(t_data *data)
 {
-	int	j;
-
-	j = 0;
-	while (array[j])
-	{
-		if (array[j])
-			free(array[j]);
-		j++;
-	}
-	free(array);
-	array = NULL;
-	return ;
-}
-
-void	arrint_free(int	***array, int i)
-{
-	int	m;
-	int	n;
-
-	n = 0;
-	while (n < 2)
-	{
-		m = 0;
-		while (m < i)
-		{
-			if (array[n][m])
-				free(array[n][m]);
-			m++;
-		}
-		if (array[n])
-			free(array[n]);
-		array[n] = NULL;
-		n++;
-	}
-	array = NULL;
+	if (!data)
+		exit(0);
+	if (data->map[0])
+		arrint_free(data->map, data->y_max);
+	if (data->img)
+		mlx_destroy_image(data->mlx, data->img);
+	if (data->win)
+		mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
+	exit(0);
 }
