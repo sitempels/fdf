@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:09:18 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/09 10:05:37 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:29:55 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		ft_isprint(int c);
 size_t	ft_strlen(const char *s);
 size_t	ft_arrlen(char **array);
 void	*ft_memset(void *b, int c, size_t len);
-void	ft_bzero(void *s, size_t n);
+void	ft_bzero(void *s, size_t n, int param);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -76,7 +76,7 @@ int		ft_atoi(const char *str);
 int		ft_atoi_base(const char *str, char *base);
 /**/
 /*--------------------------MALLOC_FUNCTIONS----------------------------------*/
-void	*ft_calloc(size_t count, size_t size);
+void	*ft_calloc(size_t count, size_t size, int param);
 char	*ft_strdup(const char *s1);
 /**/
 /*--------------------------FREE_FUNCTIONS------------------------------------*/

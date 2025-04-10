@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:09:09 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/03 11:05:55 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:48:10 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(int fd)
 	char		*new_line;
 
 	if (fd < 0 || fd > FOPEN_MAX || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (gnl_free(fd, inreading));
+		return (gnl_free(-fd, inreading));
 	i = -1;
 	if (inreading[fd])
 		while (inreading[fd][++i])

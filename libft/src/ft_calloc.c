@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:10:37 by stempels          #+#    #+#             */
-/*   Updated: 2024/11/05 14:11:10 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:29:19 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t count, size_t size, int param)
 {
 	unsigned char	*res;
 
@@ -33,6 +33,6 @@ void	*ft_calloc(size_t count, size_t size)
 	res = (void *) malloc (size * count);
 	if (!res)
 		return (NULL);
-	ft_bzero(res, size * count);
+	ft_bzero(res, size * count, param);
 	return (res);
 }

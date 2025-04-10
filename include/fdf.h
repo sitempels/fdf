@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:17:16 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/09 14:41:59 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:56:56 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	fdf(t_data *img);
 /**/
 /*---------------------------UTILS--------------------------------------------*/
 int		**free_on_close(int fd, char **arstr, int i, int **arint);
-int		close_all(t_data *data);
+int		close_all(t_data *data, int fd);
 void	my_mlx_pxput(t_data *data, int x, int y, unsigned int color);
 t_point	*init_point_struct(t_data *data, int x, int y, int ***map);
 /**/

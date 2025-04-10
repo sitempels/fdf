@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 09:49:06 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/08 12:50:44 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:08:56 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_atoi_base(const char *str, char *base)
 	{
 		res = res + index;
 		if (str[i + 1] != '\0')
-			res = res * 10;
+			res = res * ft_strlen(base);
 		if (res > INT_MAX && sign == 1)
 			return (-1);
 		if ((-1) * res < INT_MIN && sign == -1)

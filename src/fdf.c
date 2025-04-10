@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:55 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/09 16:15:24 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:59:46 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	fdf3(t_data *data, int x_max, int y_max)
 static int	key_handler(int keycode, t_data *vars)
 {
 	if (keycode == ESC_KEY)
-		close_all(vars);
+		close_all(vars, 0);
 	return (0);
 }
 

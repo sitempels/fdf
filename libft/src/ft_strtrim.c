@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:05:55 by stempels          #+#    #+#             */
-/*   Updated: 2024/11/05 14:28:30 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:33:43 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*trimmed(const char *s1, size_t start, size_t len)
 
 	if (len <= 0 || start >= ft_strlen(s1))
 		return (ft_strdup(""));
-	str = ft_calloc(len + 1, sizeof(char));
+	str = ft_calloc(len + 1, sizeof(char), 0);
 	if (!str)
 		return (NULL);
 	i = 0;

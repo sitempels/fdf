@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:53:43 by stempels          #+#    #+#             */
-/*   Updated: 2024/12/15 13:39:32 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:03:38 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	res = (char **) ft_calloc(word_nbr(s, c) + 1, sizeof(char *));
+	res = (char **) ft_calloc(word_nbr(s, c) + 1, sizeof(char *), '\0');
 	if (!res)
 		return (NULL);
 	res = word_check(res, s, c);
@@ -61,7 +61,7 @@ static char	**word_check(char **res, char const *s, char c)
 
 static char	*word_cpy(char **res, char const *substr, int size, int j)
 {
-	res[j] = (char *) ft_calloc(size + 1, sizeof(char));
+	res[j] = (char *) ft_calloc(size + 1, sizeof(char), 0);
 	if (!res[j])
 		return (NULL);
 	ft_memcpy(res[j], substr, size);

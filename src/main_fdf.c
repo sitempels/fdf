@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/09 16:17:59 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:40:26 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ int	main(int argc, char **argv)
 	data.y_max = 0;
 	data.z_min = INT_MAX;
 	data.z_max = INT_MIN;
-	parse_map(&data, argv[argc - 1], data.map);
+	data.mlx = NULL;
+	data.win = NULL;
+	data.img = NULL;
+	data.addr = NULL;
+	if (!parse_map(&data, argv[argc - 1], data.map))
+		return (-1);
 	if (!data.map[0] || !data.map[1])
 		return (-1);
 	fdf(&data);
@@ -72,11 +77,13 @@ static int	parse_map(t_data *data, char *mapfile, int ***map)
 		data->y_max++;
 	}
 	close(fd);
+	if (data->y_max == 0)
+		return (0);
 	fd = open(mapfile, 'r');
-	map[0] = (int **) malloc(sizeof(int *) * data->y_max);
+	map[0] = (int **) ft_calloc(data->y_max, sizeof(int *), 0);
 	if (!map[0])
 		return (0);
-	map[1] = (int **) malloc(sizeof(int *) * data->y_max);
+	map[1] = (int **) ft_calloc(data->y_max, sizeof(int *), 0);
 	if (!map[1])
 		return (free(map[0]), 0);
 	get_y(data, fd, map);
@@ -94,17 +101,17 @@ static int	get_y(t_data *data, int fd, int ***map)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			return (close_all(data), 0);
+			return (close_all(data, -fd), 0);
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = ' ';
 		arg = ft_split(line, ' ');
 		free(line);
 		if (!arg || (data->x_max < INT_MAX
 				&& ft_arrlen(arg) != (size_t)data->x_max))
-			return (arr_free(arg), close_all(data), 0);
+			return (arr_free(arg), close_all(data, -fd), 0);
 		data->x_max = ft_arrlen(arg);
 		if (!check_arg(arg) || !check_str(arg, map, i, data->x_max))
-			return (arr_free(arg), close_all(data), 0);
+			return (arr_free(arg), close_all(data, -fd), 0);
 		i++;
 		arr_free(arg);
 	}
@@ -194,30 +201,24 @@ int	ft_isint(char *str)
 	int	j;
 
 	i = 0;
-	j = 8;
 	if (str[i] == '+' || str[i] == '-')
 			i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			break;
+	while (ft_isdigit(str[i]))
 		i++;
-	}
 	if (str[i] == '\0')
 		return (1);
 	if (str[i++] == ',')
 	{
 		if (str[i] == '0' && str[i + 1] == 'x')
 			i = i + 2;
-		while (str[i] && j > 0)
+		j = -1;
+		while (str[i + ++j] && j < 7)
 		{
-			str[i] = ft_toupper(str[i]);
-			if (!in_base(str[i], BA_X16))
+			str[i + j] = ft_toupper(str[i + j]);
+			if (!in_base(str[i + j], BA_X16))
 				break ;
-			i++;
-			j--;
 		}
-		if (str[i] == '\0' && j == 0)
+		if (str[i + j] == '\0' && j == 6)
 			return (1);
 	}
 	return (0);
