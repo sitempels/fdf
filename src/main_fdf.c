@@ -6,17 +6,18 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/10 16:40:26 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:31:38 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	get_max(t_data *data);
 static int	parse_map(t_data *data, char *mapfile, int ***map);
 static int	get_y(t_data *data, int fd, int ***map);
 static int	check_arg(char **argv);
 static int	check_str(char **array, int ***map, int width, int line_length);
-static int	check_map(char *arg);
+static int	check_map(char *arg, int *content);
 int	ft_isint(char *str);
 int	in_base(char c, char *base);
 
@@ -31,9 +32,11 @@ int	main(int argc, char **argv)
 	if (i < 5 || ft_abs(ft_memcmp(&argv[1][i - 4], ".fdf", 4)))
 		return (-1);
 	data.x_max = INT_MAX;
-	data.y_max = 0;
-	data.z_min = INT_MAX;
-	data.z_max = INT_MIN;
+	data.y_max = -1;
+	data.min_x = INT_MAX;
+	data.max_x = INT_MIN;
+	data.min_z = INT_MAX;
+	data.max_z = INT_MIN;
 	data.mlx = NULL;
 	data.win = NULL;
 	data.img = NULL;
@@ -42,6 +45,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	if (!data.map[0] || !data.map[1])
 		return (-1);
+	get_max(&data);
 	fdf(&data);
 	return (0);
 }
@@ -68,13 +72,12 @@ static int	parse_map(t_data *data, char *mapfile, int ***map)
 	fd = open(mapfile, 'r');
 	if (read(fd, 0, 0) == -1)
 		return (0);
-	while (1)
+	while (++data->y_max || 1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
 		free(line);
-		data->y_max++;
 	}
 	close(fd);
 	if (data->y_max == 0)
@@ -164,35 +167,32 @@ static int	check_str(char **array, int ***map, int width, int length)
 		arg = ft_split(array[i], ',');
 		if (!arg[0])
 			return (0);
-		map[0][width][i] = check_map(arg[0]);
-		if (map[0][width][i] == 0 && !arg)
-			return (0);
-		map[1][width][i] = check_map(arg[1]);
-		if (map[1][width][i] == 0 && !arg)
-			return (0);
+		if (!check_map(arg[0], &map[0][width][i]))
+			return (arr_free(arg), 0);
+		if (!check_map(arg[1], &map[1][width][i]))
+		if (map[1][width][i] == 0 && !arg[1])
+			return (arr_free(arg), 0);
 		i++;
 		arr_free(arg);
 	}
 	return (1);
 }
 
-static int	check_map(char *arg)
+static int	check_map(char *arg, int *content)
 {
-	int	content;
-
 	if (arg)
 	{
 		if (arg[0] == '0' && arg[1] == 'x')
-			content = ft_atoi_base(&arg[2], BA_X16);
+			*content = ft_atoi_base(&arg[2], BA_X16);
 		else
-			content = ft_atoi_base(arg, BA_X16);
-		if ((content == -1 && arg[0] != '-')
-			|| (content == 0 && arg[0] != '0'))
-			return (free(arg), 0);
+			*content = ft_atoi_base(arg, BA_X16);
+		if ((*content == -1 && arg[0] != '-')
+			|| (*content == 0 && arg[0] != '0'))
+			return (0);
 	}
 	else
-		content = 0x00FFFFFF;
-	return (content);
+		*content = 0x00FFFFFF;
+	return (1);
 }
 
 int	ft_isint(char *str)
@@ -212,13 +212,13 @@ int	ft_isint(char *str)
 		if (str[i] == '0' && str[i + 1] == 'x')
 			i = i + 2;
 		j = -1;
-		while (str[i + ++j] && j < 7)
+		while (str[i + ++j] && j < 9)
 		{
 			str[i + j] = ft_toupper(str[i + j]);
 			if (!in_base(str[i + j], BA_X16))
 				break ;
 		}
-		if (str[i + j] == '\0' && j == 6)
+		if (str[i + j] == '\0' && (j == 6 || j == 8))
 			return (1);
 	}
 	return (0);
@@ -236,4 +236,37 @@ int	in_base(char c, char *base)
 		i++;
 	}
 	return (0);
+}
+
+void	get_max(t_data *data)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (j < data->y_max && data->map[0][j])
+	{
+		i = 0;
+		while (i < data->x_max && data->map[0][j][i])
+		{
+			if ((i + j) * (WIDHT / data->x_max) * cos(M_PI / 6) 
+				> data->max_x)
+				data->max_x = ((i + j) * (WIDHT / data->x_max))
+				* cos(M_PI / 6);
+			if ((i + j) * (WIDHT / data->x_max) * cos(M_PI / 6)
+				< data->min_x)
+				data->min_x = ((i + j) * (WIDHT / data->x_max))
+				* cos(M_PI / 6);
+			if ((((i - j) * (HEIGHT / data->y_max)) * sin(M_PI / 6)
+				- data->map[0][j][i]) > data->max_z)
+				data->max_z = (((i - j) * (HEIGHT / data->y_max
+				)) * sin(M_PI / 6) - data->map[0][j][i]);
+			if ((((i - j) * (HEIGHT / data->y_max)) * sin(M_PI / 6)
+				- data->map[0][j][i]) < data->min_z)
+				data->min_z = (((i - j) * (HEIGHT / data->y_max
+				)) * sin(M_PI / 6) - data->map[0][j][i]);
+			i++;
+		}
+		j++;
+	}
 }

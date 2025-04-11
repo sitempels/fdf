@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:17:16 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/10 14:56:56 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:19:48 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ typedef struct s_data
 	int		**map[2];
 	int		x_max;
 	int		y_max;
-	int		z_min;
-	int		z_max;
+	int		min_x;
+	int		max_x;
+	int		min_z;
+	int		max_z;
 }		t_data;
 
 typedef struct s_point
@@ -45,7 +47,7 @@ typedef struct s_point
 }		t_point;
 /**/
 /*---------------------------FONCT--------------------------------------------*/
-void	fdf(t_data *img);
+int	fdf(t_data *img);
 /**/
 /*---------------------------UTILS--------------------------------------------*/
 int		**free_on_close(int fd, char **arstr, int i, int **arint);

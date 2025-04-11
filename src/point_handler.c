@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:13:57 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/09 15:28:01 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:16:31 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ t_point	*init_point_struct(t_data *data, int x, int y, int ***map)
 	ptx = (t_point *) malloc(sizeof(t_point) * 1);
 	if (!ptx)
 		return (NULL);
-	projx = (x * (WIDHT / (data->x_max - 1)));
-	projy = (y * (HEIGHT / (data->y_max - 1)));
+	projx = (x * ((data->max_x - data->min_x) / (data->x_max)));
+	projy = (y * ((data->max_z - data->min_z) / (data->y_max)));
 	ptx->x = (int)((projx + projy) * cos(angle));
 	ptx->y = (int)((projx - projy) * sin(angle) - map[0][x][y]);
 	ptx->color = map[1][x][y];
-	ptx->x = (ptx->x * 0.5) + 0.05 * WIDHT;
-	ptx->y = (ptx->y * 0.5) + 0.5 * HEIGHT;
+	ptx->x = (ptx->x * 0.8 + ((WIDHT - data->max_x + data->min_x) / 2));
+	ptx->y = (ptx->y * 0.8 + ((HEIGHT - data->max_z + data->min_z) / 2));
 	return (ptx);
 }
 
