@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:55 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/11 16:31:03 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:00:11 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static int	key_handler(int keycode, t_data *vars);
 static void	draw_line(t_data *data, t_point *pt1, t_point *pt2);
-static void	fdf2(t_data *data, int max_1, int max_2, int n);
-//static void	fdf3(t_data *data, int x_max, int y_max);
-//static void	fdf4(t_data *data, int x_max, int y_max);
+//static void	fdf2(t_data *data, int max_1, int max_2, int n);
+static void	fdf3(t_data *data, int x_max, int y_max);
+static void	fdf4(t_data *data, int x_max, int y_max);
 int	modif(int start, int end, float t);
 int	gc(t_point *pt1, t_point *pt2, float t);
 
@@ -36,13 +36,14 @@ int	fdf(t_data *data)
 		return (close_all(data, 0));
 	mlx_hook(data->win, 2, 1L << 0, key_handler, data);
 	mlx_hook(data->win, 17, 0, close_all, data);
-	fdf2(data, data->x_max, data->y_max, 1);
-	fdf2(data, data->x_max, data->y_max, 0);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	fdf3(data, data->x_max, data->y_max);
+	fdf4(data, data->x_max, data->y_max);
+	mlx_put_image_to_window(data->mlx, data->win, data->img,
+		WIDHT * 0.01, HEIGHT * 0.01);
 	mlx_loop(data->mlx);
 	return (1);
 }
-
+/*
 static void	fdf2(t_data *data, int x_max, int y_max, int n)
 {
 	int	i;
@@ -69,7 +70,7 @@ static void	fdf2(t_data *data, int x_max, int y_max, int n)
 	}
 	return ;
 }
-/*
+*/
 static void	fdf4(t_data *data, int x_max, int y_max)
 {
 	int	i;
@@ -77,40 +78,12 @@ static void	fdf4(t_data *data, int x_max, int y_max)
 	t_point	*ptx1;
 	t_point	*ptx2;
 
-	i = 1;	
+	i = 0;	
 	while (i < y_max)
 	{
 		j = 0;
-		ptx1 = init_point_struct(data, i - 1, j, data->map);
-		while (j < x_max)
-		{
-			ptx2 = init_point_struct(data, i, j, data->map);
-			draw_line(data, ptx2, ptx1);
-			free(ptx1);
-			ptx1 = ptx2;
-			j++;
-		}
-		my_mlx_pxput(data, ptx1->x, ptx1->y, ptx1->color);
-		free(ptx1);
-		i++;
-	}
-	return ;
-}
-*/
-
-/*static void	fdf3(t_data *data, int x_max, int y_max)
-{
-	int	i;
-	int	j;
-	t_point	*ptx1;
-	t_point	*ptx2;
-
-	i = 0;	
-	while (i < x_max)
-	{
-		j = 0;
 		ptx1 = init_point_struct(data, j, i, data->map);
-		while (j < y_max)
+		while (j < x_max)
 		{
 			ptx2 = init_point_struct(data, j, i, data->map);
 			draw_line(data, ptx2, ptx1);
@@ -123,7 +96,35 @@ static void	fdf4(t_data *data, int x_max, int y_max)
 		i++;
 	}
 	return ;
-}*/
+}
+
+
+static void	fdf3(t_data *data, int x_max, int y_max)
+{
+	int	i;
+	int	j;
+	t_point	*ptx1;
+	t_point	*ptx2;
+
+	j = 0;	
+	while (j < x_max)
+	{
+		i = 0;
+		ptx1 = init_point_struct(data, j, i, data->map);
+		while (i < y_max)
+		{
+			ptx2 = init_point_struct(data, j, i, data->map);
+			draw_line(data, ptx2, ptx1);
+			free(ptx1);
+			ptx1 = ptx2;
+			i++;
+		}
+		my_mlx_pxput(data, ptx1->x, ptx1->y, ptx1->color);
+		free(ptx1);
+		j++;
+	}
+	return ;
+}
 
 static int	key_handler(int keycode, t_data *vars)
 {

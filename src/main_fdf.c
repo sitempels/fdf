@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/11 16:31:38 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:45:50 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 	i = ft_strlen(argv[1]);
 	if (i < 5 || ft_abs(ft_memcmp(&argv[1][i - 4], ".fdf", 4)))
 		return (-1);
-	data.x_max = INT_MAX;
+	data.x_max = 0;
 	data.y_max = -1;
 	data.min_x = INT_MAX;
 	data.max_x = INT_MIN;
@@ -109,7 +109,7 @@ static int	get_y(t_data *data, int fd, int ***map)
 			line[ft_strlen(line) - 1] = ' ';
 		arg = ft_split(line, ' ');
 		free(line);
-		if (!arg || (data->x_max < INT_MAX
+		if (!arg || (data->x_max != 0 
 				&& ft_arrlen(arg) != (size_t)data->x_max))
 			return (arr_free(arg), close_all(data, -fd), 0);
 		data->x_max = ft_arrlen(arg);
