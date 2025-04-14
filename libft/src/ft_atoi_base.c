@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 09:49:06 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/14 13:27:35 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:01:14 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_atoi_base(const char *str, char *base)
 	size_t			i;
 	int				sign;
 	int				index;
-	long int	res;
+	long int		res;
 
 	i = 0;
 	sign = 1;

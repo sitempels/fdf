@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/14 13:37:10 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:01:58 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,8 @@ static int	check_map(char *arg, int *content, char *base)
 			*content = ft_atoi_base(&arg[2], base);
 		else
 			*content = ft_atoi_base(arg, base);
-		if ((*content == -1 && arg[0] != '-') || (*content == 0 && arg[0] != '0'))
+		if ((*content == -1 && arg[0] != '-')
+			|| (*content == 0 && arg[0] != '0'))
 			return (0);
 	}
 	else
