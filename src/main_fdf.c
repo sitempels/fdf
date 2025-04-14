@@ -6,20 +6,16 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/14 09:57:27 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 12:32:46 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	get_max(t_data *data);
 static int	parse_map(t_data *data, char *mapfile, int ***map);
 static int	get_y(t_data *data, int fd, int ***map);
-static int	check_arg(char **argv);
 static int	check_str(char **array, int ***map, int width, int line_length);
 static int	check_map(char *arg, int *content);
-int	ft_isint(char *str);
-int	in_base(char c, char *base);
 
 int	main(int argc, char **argv)
 {
@@ -49,20 +45,6 @@ int	main(int argc, char **argv)
 	fdf(&data);
 	return (0);
 }
-/*
-	i = 0;
-	while (i < data.y_max)
-	{
-		j = 0;
-		while (j < data.x_max)
-		{
-			printf("%d ", map[0][i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-*/
 
 static int	parse_map(t_data *data, char *mapfile, int ***map)
 {
@@ -109,7 +91,7 @@ static int	get_y(t_data *data, int fd, int ***map)
 			line[ft_strlen(line) - 1] = ' ';
 		arg = ft_split(line, ' ');
 		free(line);
-		if (!arg || (data->x_max != 0 
+		if (!arg || (data->x_max != 0
 				&& ft_arrlen(arg) != (size_t)data->x_max))
 			return (arr_free(arg), close_all(data, -fd), 0);
 		data->x_max = ft_arrlen(arg);
@@ -119,34 +101,6 @@ static int	get_y(t_data *data, int fd, int ***map)
 		arr_free(arg);
 	}
 	close(fd);
-	return (1);
-}
-
-static int	check_arg(char **argv)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (argv[i])
-	{
-		j = 0;
-		if (!ft_isint(argv[i]))
-			return (0);
-		while (argv[i][j])
-		{
-			if ((argv[i][j] == '-' || argv[i][j] == '+') && (j > 0
-				&& !ft_isspace(argv[i][j - 1]))
-				&& !ft_isspace(argv[i][j])
-				&& (j < (int)ft_strlen(argv[i])
-				&& !ft_isdigit(argv[i][j + 1]))
-				&& !(argv[i][j] == '-' || argv[i][j] == '+'
-				|| argv[i][j] == 'x' || argv[i][j] == ','))
-				return (0);
-			j++;
-		}
-		i++;
-	}
 	return (1);
 }
 
@@ -170,7 +124,6 @@ static int	check_str(char **array, int ***map, int width, int length)
 		if (!check_map(arg[0], &map[0][width][i]))
 			return (arr_free(arg), 0);
 		if (!check_map(arg[1], &map[1][width][i]))
-		if (map[1][width][i] == 0 && !arg[1])
 			return (arr_free(arg), 0);
 		i++;
 		arr_free(arg);
@@ -193,76 +146,4 @@ static int	check_map(char *arg, int *content)
 	else
 		*content = 0x00FFFFFF;
 	return (1);
-}
-
-int	ft_isint(char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	if (str[i] == '+' || str[i] == '-')
-			i++;
-	while (ft_isdigit(str[i]))
-		i++;
-	if (str[i] == '\0')
-		return (1);
-	if (str[i++] == ',')
-	{
-		if (str[i] == '0' && str[i + 1] == 'x')
-			i = i + 2;
-		j = -1;
-		while (str[i + ++j] && j < 9)
-		{
-			str[i + j] = ft_toupper(str[i + j]);
-			if (!in_base(str[i + j], BA_X16))
-				break ;
-		}
-		if (str[i + j] == '\0' && (j == 6 || j == 8))
-			return (1);
-	}
-	return (0);
-}
-
-int	in_base(char c, char *base)
-{
-	int	i;
-
-	i = 0;
-	while (base[i])
-	{
-		if (c == base[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	get_max(t_data *data)
-{
-	int	i;
-	int	j;
-	float	a;
-	int	x;
-	int	y;
-
-	j = 0;
-	a = -M_PI / 6;
-	while (j < data->y_max)
-	{
-		i = 0;
-		while (i < data->x_max)
-		{
-			x = (i * (WIDHT / data->x_max));
-			y = (j * (HEIGHT / data->y_max));
-			if ((x + y) * cos(a) > data->max_x)
-				data->max_x = (x + y) * cos(a);
-			if (((x - y) * sin(a)- data->map[0][j][i]) > data->max_z)
-				data->max_z = (x - y) * sin(a) - data->map[0][j][i];
-			if (((x - y) * sin(a) - data->map[0][j][i]) < data->min_z)
-				data->min_z = (x - y) * sin(a) - data->map[0][j][i];
-			i++;
-		}
-		j++;
-	}
 }

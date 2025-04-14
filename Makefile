@@ -6,7 +6,7 @@
 #    By: stempels <stempels@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/14 10:47:36 by stempels          #+#    #+#              #
-#    Updated: 2025/04/09 10:13:42 by stempels         ###   ########.fr        #
+#    Updated: 2025/04/14 12:26:29 by stempels         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -24,7 +24,7 @@ CPPFLAGS = $(INC_FLAG)
 #----------------------------MAIN----------------------------------------------#
 #----------------------------SRC-----------------------------------------------#
 SRC_DIR = src
-SRC = $(addprefix src/, $(addsuffix .c, main_fdf fdf point_handler fdf_utils)) 
+SRC = $(addprefix src/, $(addsuffix .c, main_fdf main_utils fdf fdf_utils point_handler)) 
 #
 #----------------------------OBJ-----------------------------------------------#
 OBJ_DIR = obj
