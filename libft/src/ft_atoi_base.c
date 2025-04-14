@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 09:49:06 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/10 14:08:56 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 13:27:35 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_atoi_base(const char *str, char *base)
 	size_t			i;
 	int				sign;
 	int				index;
-	long long int	res;
+	long int	res;
 
 	i = 0;
 	sign = 1;
@@ -40,7 +40,7 @@ int	ft_atoi_base(const char *str, char *base)
 			return (0);
 		i++;
 	}
-	return (sign * res);
+	return ((int)(sign * res));
 }
 
 static int	get_value(char c, char *base, int *i)
@@ -49,7 +49,7 @@ static int	get_value(char c, char *base, int *i)
 	while (base[*i])
 	{
 		if (c == base[*i])
-			return (*i + 1);
+			return (1);
 		*i = *i + 1;
 	}
 	return (0);

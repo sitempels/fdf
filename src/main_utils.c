@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 12:16:08 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/14 12:31:51 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 13:48:34 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ void	get_max(t_data *data)
 	int		j;
 	int		x;
 	int		y;
-	float	a;
 
 	j = 0;
-	a = -M_PI / 6;
 	while (j < data->y_max)
 	{
 		i = 0;
@@ -72,12 +70,12 @@ void	get_max(t_data *data)
 		{
 			x = (i * (WIDHT / data->x_max));
 			y = (j * (HEIGHT / data->y_max));
-			if ((x + y) * cos(a) > data->max_x)
-				data->max_x = (x + y) * cos(a);
-			if (((x - y) * sin(a) - data->map[0][j][i]) > data->max_z)
-				data->max_z = (x - y) * sin(a) - data->map[0][j][i];
-			if (((x - y) * sin(a) - data->map[0][j][i]) < data->min_z)
-				data->min_z = (x - y) * sin(a) - data->map[0][j][i];
+			if ((x + y) * cos(ANGLE) > data->max_x)
+				data->max_x = (x + y) * cos(ANGLE);
+			if (((x - y) * sin(ANGLE) - data->map[0][j][i]) > data->max_z)
+				data->max_z = (x - y) * sin(ANGLE) - data->map[0][j][i];
+			if (((x - y) * sin(ANGLE) - data->map[0][j][i]) < data->min_z)
+				data->min_z = (x - y) * sin(ANGLE) - data->map[0][j][i];
 			i++;
 		}
 		j++;

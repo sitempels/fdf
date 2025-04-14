@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:17:16 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/14 12:20:54 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 13:51:24 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,15 @@
 # include "mlx.h"
 # include <math.h>
 /*---------------------------MACRO--------------------------------------------*/
-# define WIDHT 1920
-# define HEIGHT 1080 
+# ifndef WIDHT 
+#  define WIDHT 1920
+# endif
+# ifndef HEIGHT 
+#  define HEIGHT 1080
+# endif
+# ifndef ANGLE
+#  define ANGLE -0.52 
+# endif
 # define ESC_KEY 65307
 /**/
 /*---------------------------STRUC--------------------------------------------*/

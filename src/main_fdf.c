@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/14 12:32:46 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 13:37:10 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	parse_map(t_data *data, char *mapfile, int ***map);
 static int	get_y(t_data *data, int fd, int ***map);
 static int	check_str(char **array, int ***map, int width, int line_length);
-static int	check_map(char *arg, int *content);
+static int	check_map(char *arg, int *content, char *base);
 
 int	main(int argc, char **argv)
 {
@@ -121,9 +121,9 @@ static int	check_str(char **array, int ***map, int width, int length)
 		arg = ft_split(array[i], ',');
 		if (!arg[0])
 			return (0);
-		if (!check_map(arg[0], &map[0][width][i]))
+		if (!check_map(arg[0], &map[0][width][i], BA_10))
 			return (arr_free(arg), 0);
-		if (!check_map(arg[1], &map[1][width][i]))
+		if (!check_map(arg[1], &map[1][width][i], BA_X16))
 			return (arr_free(arg), 0);
 		i++;
 		arr_free(arg);
@@ -131,16 +131,15 @@ static int	check_str(char **array, int ***map, int width, int length)
 	return (1);
 }
 
-static int	check_map(char *arg, int *content)
+static int	check_map(char *arg, int *content, char *base)
 {
 	if (arg)
 	{
 		if (arg[0] == '0' && arg[1] == 'x')
-			*content = ft_atoi_base(&arg[2], BA_X16);
+			*content = ft_atoi_base(&arg[2], base);
 		else
-			*content = ft_atoi_base(arg, BA_X16);
-		if ((*content == -1 && arg[0] != '-')
-			|| (*content == 0 && arg[0] != '0'))
+			*content = ft_atoi_base(arg, base);
+		if ((*content == -1 && arg[0] != '-') || (*content == 0 && arg[0] != '0'))
 			return (0);
 	}
 	else
