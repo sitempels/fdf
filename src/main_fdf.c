@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:48 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/11 17:45:50 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:57:27 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	data.x_max = 0;
 	data.y_max = -1;
-	data.min_x = INT_MAX;
+	data.min_x = 0;
 	data.max_x = INT_MIN;
 	data.min_z = INT_MAX;
 	data.max_z = INT_MIN;
@@ -242,29 +242,25 @@ void	get_max(t_data *data)
 {
 	int	i;
 	int	j;
+	float	a;
+	int	x;
+	int	y;
 
 	j = 0;
-	while (j < data->y_max && data->map[0][j])
+	a = -M_PI / 6;
+	while (j < data->y_max)
 	{
 		i = 0;
-		while (i < data->x_max && data->map[0][j][i])
+		while (i < data->x_max)
 		{
-			if ((i + j) * (WIDHT / data->x_max) * cos(M_PI / 6) 
-				> data->max_x)
-				data->max_x = ((i + j) * (WIDHT / data->x_max))
-				* cos(M_PI / 6);
-			if ((i + j) * (WIDHT / data->x_max) * cos(M_PI / 6)
-				< data->min_x)
-				data->min_x = ((i + j) * (WIDHT / data->x_max))
-				* cos(M_PI / 6);
-			if ((((i - j) * (HEIGHT / data->y_max)) * sin(M_PI / 6)
-				- data->map[0][j][i]) > data->max_z)
-				data->max_z = (((i - j) * (HEIGHT / data->y_max
-				)) * sin(M_PI / 6) - data->map[0][j][i]);
-			if ((((i - j) * (HEIGHT / data->y_max)) * sin(M_PI / 6)
-				- data->map[0][j][i]) < data->min_z)
-				data->min_z = (((i - j) * (HEIGHT / data->y_max
-				)) * sin(M_PI / 6) - data->map[0][j][i]);
+			x = (i * (WIDHT / data->x_max));
+			y = (j * (HEIGHT / data->y_max));
+			if ((x + y) * cos(a) > data->max_x)
+				data->max_x = (x + y) * cos(a);
+			if (((x - y) * sin(a)- data->map[0][j][i]) > data->max_z)
+				data->max_z = (x - y) * sin(a) - data->map[0][j][i];
+			if (((x - y) * sin(a) - data->map[0][j][i]) < data->min_z)
+				data->min_z = (x - y) * sin(a) - data->map[0][j][i];
 			i++;
 		}
 		j++;

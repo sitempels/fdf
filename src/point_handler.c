@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:13:57 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/11 17:58:17 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 10:05:57 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ t_point	*init_point_struct(t_data *data, int x, int y, int ***map)
 	float	angle;
 	t_point	*ptx;
 
-	angle = M_PI / 6;
+	angle = -M_PI / 6;
 	ptx = (t_point *) malloc(sizeof(t_point) * 1);
 	if (!ptx)
 		return (NULL);
-	projx = (x * ((WIDHT / data->x_max)));
-	projy = (y * ((HEIGHT / data->y_max)));
+	projx = (x * (WIDHT / (data->x_max)));
+	projy = (y * (HEIGHT / (data->y_max)));
 //	ptx->x = (x * (WIDHT / (data->x_max)));
 //	ptx->y = (y * (HEIGHT / (data->y_max)));
 	ptx->x = (int)((projx + projy) * cos(angle));
 	ptx->y = (int)((projx - projy) * sin(angle) - map[0][y][x]);
 	ptx->color = map[1][y][x];
-//	ptx->x = (ptx->x * 0.8);
-//	ptx->y = (ptx->y * 0.8);
+	ptx->x = (ptx->x + ft_abs(data->min_x)) * 0.66;
+	ptx->y = (ptx->y + ft_abs(data->min_z)) * 0.66;
 	return (ptx);
 }
 

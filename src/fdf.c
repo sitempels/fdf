@@ -6,7 +6,7 @@
 /*   By: stempels <stempels@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:51:55 by stempels          #+#    #+#             */
-/*   Updated: 2025/04/11 18:00:11 by stempels         ###   ########.fr       */
+/*   Updated: 2025/04/14 10:08:13 by stempels         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int	gc(t_point *pt1, t_point *pt2, float t);
 
 int	fdf(t_data *data)
 {
+	int	dx;
+	int	dy;
+
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (close_all(data, 0));
@@ -38,8 +41,9 @@ int	fdf(t_data *data)
 	mlx_hook(data->win, 17, 0, close_all, data);
 	fdf3(data, data->x_max, data->y_max);
 	fdf4(data, data->x_max, data->y_max);
-	mlx_put_image_to_window(data->mlx, data->win, data->img,
-		WIDHT * 0.01, HEIGHT * 0.01);
+	dx = WIDHT * 0.1;
+	dy = HEIGHT * 0.1;
+	mlx_put_image_to_window(data->mlx, data->win, data->img, dx, dy);
 	mlx_loop(data->mlx);
 	return (1);
 }
